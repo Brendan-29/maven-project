@@ -1,14 +1,19 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Local Windows Maven'
+    parameters {
+         string(name: 'tomcat_dev', defaultValue: 'localhost:8090', description: 'Staging Server')
+         string(name: 'tomcat_prod', defaultValue: 'localhost:8081', description: 'Production Server')
     }
 
-    stages{
+    triggers {
+         pollSCM('* * * * *')		// Polling Source Control every minute
+     }
+
+stages{
         stage('Build'){
             steps {
-                bat 'mvn clean package'
+                bin 'mvn clean package'
             }
             post {
                 success {
@@ -18,29 +23,20 @@ pipeline {
             }
         }
 
-        stage ('Deploy to Staging'){
-           steps{
-               build job: 'Deploy-To-Staging'
-            }
-        }
-
-        stage ('Deploy to Production'){
-            steps{
-                timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
+        stage ('Deployments'){
+            parallel{
+                stage ('Deploy to Staging'){
+                    steps {
+                        bin "cp **/target/*.war {params.tomcat_dev}:/var/lib/tomcat8/webapps"
+                    }
                 }
 
-                build job: 'Deploy-To-Production'
-            }
-            post {
-                success {
-                    echo 'Code deployed to Production.'
-                }
-
-                failure {
-                    echo ' Deployment failed to Production.'
+                stage ("Deploy to Production"){
+                    steps {
+                        bin "cp **/target/*.war {params.tomcat_prod}:/var/lib/tomcat8/webapps"
+                    }
                 }
             }
         }
     }
-} 
+}
