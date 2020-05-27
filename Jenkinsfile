@@ -13,7 +13,7 @@ pipeline {
 stages{
         stage('Build'){
             steps {
-                bin 'mvn clean package'
+                bat 'mvn clean package'
             }
             post {
                 success {
@@ -27,13 +27,13 @@ stages{
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        bin "cp **/target/*.war {params.tomcat_dev}:/var/lib/tomcat8/webapps"
+                        bat "cp **/target/*.war {params.tomcat_dev}:/var/lib/tomcat8/webapps"
                     }
                 }
 
                 stage ("Deploy to Production"){
                     steps {
-                        bin "cp **/target/*.war {params.tomcat_prod}:/var/lib/tomcat8/webapps"
+                        bat "cp **/target/*.war {params.tomcat_prod}:/var/lib/tomcat8/webapps"
                     }
                 }
             }
