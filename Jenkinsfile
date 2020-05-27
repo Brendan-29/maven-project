@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    
+    tools {
+        maven 'Local Windows Maven'
+    }
+    
     parameters {
          string(name: 'tomcat_dev', defaultValue: 'localhost:8090', description: 'Staging Server')
          string(name: 'tomcat_prod', defaultValue: 'localhost:8081', description: 'Production Server')
