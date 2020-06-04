@@ -29,13 +29,13 @@ stages{
 
         stage ('Deployments'){
             parallel{
-                stage ('Deploy to Staging'){
+                stage ('Deploy to Staging Tomcat'){
                     steps {
                         bat "copy **/target/*.war D:\\Brendans_Laptop\\Tomcat\\apache-tomcat-8.5.55-windows-x64\\apache-tomcat-8.5.55\\webapps"
                     }
                 }
 
-                stage ("Deploy to Production"){
+                stage ('Deploy to Production Tomcat'){
                     steps {
                         bat "copy **/target/*.war D:\\Brendans_Laptop\\Tomcat\\apache-tomcat-8.5.55-windows-x64\\Tomcat_prod_instance\\webapps"
                     }
