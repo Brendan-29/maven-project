@@ -37,7 +37,7 @@ stages{
 
                 stage ("Deploy to Production"){
                     steps {
-                        bat "copy **/target/*.war {params.tomcat_prod}/var/lib/tomcat8/webapps"
+                        bat "copy **/target/*.war D:\\Brendans_Laptop\\Tomcat\\apache-tomcat-8.5.55-windows-x64\\Tomcat_prod_instance\webapps"
                     }
                 }
             }
