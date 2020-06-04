@@ -31,7 +31,7 @@ stages{
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        bat "copy **/target/*.war http://localhost:8090:/var/lib/tomcat8/webapps"
+                        bat "copy **/target/*.war D:/Brendans_Laptop/Tomcat/apache-tomcat-8.5.55-windows-x64/apache-tomcat-8.5.55/webapps"
                     }
                 }
 
