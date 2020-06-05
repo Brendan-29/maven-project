@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         maven 'Local Windows Maven'
-        docker 'Local Docker Toolbox'
     }
 
     stages{
